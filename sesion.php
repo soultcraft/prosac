@@ -1,5 +1,6 @@
 <html>
 <head>
+    <link href="css/estilos.css" rel="stylesheet">
     <title>Programando Ando</title>
     <!-- Latest compiled and minified CSS -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
@@ -28,8 +29,11 @@
             else
             {
                 include("conexion.php");
+                $password = mysqli_query($cone,"SELECT * FROM $tabla_bd1 WHERE usu_usu = '$user'");
+                $consult = mysqli_fetch_array($password);
+                $passw = base64_decode($consult['pas_usu']);
                 $_SESSION['sesion_exito']=3;//INCORRECTOS
-                $resultado = mysqli_query($cone,"SELECT * FROM $tabla_bd1 WHERE usu_usu = '$user' AND pas_usu = '$pass'");
+                $resultado = mysqli_query($cone,"SELECT * FROM $tabla_bd1 WHERE usu_usu = '$user' AND $passw = '$pass'");
                 while($consulta = mysqli_fetch_array($resultado))
                 {
                     $_SESSION['sesion_exito']=1;//inicio sesion
@@ -43,6 +47,56 @@
             header('Location:index.php');
         }
     ?>
+    
+    <div class="po" >
+    <center><h1>TABLA DE USUARIOS</h1></center> 
+        <table class="table">
+            <th>#</th>
+            <th>NOMBRE</th>
+            <th>APELLIDO</th>
+            <th>USUARIO</th>
+            <th>CONTRASEÑA</th>
+            <th>DNI</th>
+            <th>DIRECCION</th>
+            <th>TELEFONO</th>
+            <th>E-MAIL</th>
+            <th>TIPO DE USUARIO</th>
+            <th>ACCIONES</th>
+            <th>
+            <?php
+                include("conexion.php");
+                $i=0;
+                $resultado = mysqli_query($cone,"SELECT * FROM $tabla_bd1");
+                while($consulta = mysqli_fetch_array($resultado))
+                {
+                    $i=$i+1;
+                    echo
+                    "<tr>                                          
+                        <td>$i</td>
+                        <td>".$consulta['nom_usu']."</td>
+                        <td>".$consulta['ape_usu']."</td>
+                        <td>".$consulta['usu_usu']."</td>
+                        <td>".$consulta['pas_usu']."</td>
+                        <td>".$consulta['dni_usu']."</td>
+                        <td>".$consulta['direc_usu']."</td>
+                        <td>".$consulta['ncel_usu']."</td>
+                        <td>".$consulta['mail_usu']."</td>
+                        <td>".$consulta['ti_usu']."</td>  
+                        <td>"."<input type=\"submit\" value=\"Editar\" class=\"btn btn-info\" name=\"editar\">"."    ".
+                        "<input type=\"submit\" value=\"Eliminar\" class=\"btn btn-info\" name=\"eliminar\">"
+                        ."</td>                      
+                    </tr>
+                    ";
+                    
+                }
+                include("close_conexion.php");
+            ?>
+            </th>
+            
+        </table>
+    </div>
+
+<!--
     <div class="row">
         <div class="col-md-4"></div>
         <div class="col-md-4">
@@ -75,6 +129,7 @@
                     <input type="submit" value="Consulta" class="btn btn-info" name="btn2">
                 </center>
             </form>
+            -->
 
             <?php
                 
@@ -94,7 +149,7 @@
 
                     echo "Se insertaron correctamenta";
                 }
-
+/*
                 if(isset($_POST['btn2']))
                 {
                     include("conexion.php");
@@ -122,7 +177,7 @@
                             
                         }
                     include("close_conexion.php");
-                }
+                }*/
 
             ?>
         </div>

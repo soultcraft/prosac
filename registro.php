@@ -18,7 +18,7 @@
             $nom_usu = $_POST['nom_usu'];
             $ape_usu = $_POST['ape_usu'];
             $usu_usu = $_POST['usu_usu'];
-            $pas_usu = $_POST['pas_usu'];
+            $pas_usu = base64_encode($_POST['pas_usu']);
             $dni_usu = $_POST['dni_usu'];
             $direc_usu = $_POST['direc_usu'];
             $ncel_usu = $_POST['ncel_usu'];
